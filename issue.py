@@ -2,7 +2,6 @@ import json
 import requests
 
 def get_issue(issueUrl, nextpage = 1):
-    print(nextpage)
     issuePath = './data/issues.json'
     if nextpage == 1:
         with open(issuePath,'w+') as issuefs:
