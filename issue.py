@@ -1,12 +1,15 @@
 import json
 import requests
 
-def get_issue(issueUrl, nextpage = 1):
+def opened(isopened):
+    return '&state=opened' if isopened else ''
+
+def get_issue(issueUrl, nextpage = 1, isopened = True):
     issuePath = './data/issues.json'
     if nextpage == 1:
         with open(issuePath,'w+') as issuefs:
             issuefs.write(r'[]')
-    with requests.get(issueUrl+'&page=%d'%(nextpage)) as issues:
+    with requests.get(issueUrl+opened(isopened)+'&page=%d'%(nextpage)) as issues:
         with open(issuePath,'r') as issuefs:
             issuejson = json.load(issuefs)
             for issue in issues.json():
