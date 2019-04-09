@@ -1,15 +1,21 @@
+# Gitlab Tool
+
 This is an simple tool for gitlab api.
 
-dependencies:
+# Dependencies
 
 python 3.x
 
+## Install dependencies
+
 ```shell
-python ./app.py
+pip install -r requirements.txt
 ```
 
-if your need reset project information. use:
+## How to use
 
 ```shell
-python ./app.py reset
+python app.py [--reset|--setup]
+reset -- reset group and project
+setup -- setup api url and token
 ```
