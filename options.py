@@ -4,7 +4,7 @@ import os
 import setup
 
 def options(reset = False):
-    option_json = {"GroupID":0,"ProjectID":0}
+    option_json = {"GroupID":0,"ProjectID":0,"isOpened":True}
     confPath = './data/config.json'
     opt_file = './data/options.json'
 
@@ -42,17 +42,28 @@ def options(reset = False):
             project_id = projects.json()[int(project_in)]['id']
             option_json["ProjectID"] = project_id
 
-            issueUrl = '%s/projects/%d/issues?private_token=%s' % (config['url'], project_id, config['private_token'])
+            issue_url = '%s/projects/%d/issues?private_token=%s' % (config['url'], project_id, config['private_token'])
             mrUrl = '%s/projects/%d/merge_requests?private_token=%s' % (config['url'], project_id, config['private_token'])
-            with open('./data/options.json','w+') as opt:
-                opt.write(json.dumps(option_json))
+        isOpened_in = input("Only query for open issue?(y)es/(n)o(default:yes): ")
+        if isOpened_in in ['n','N','no','No']:
+            isOpened=False
+        else:
+            isOpened=True
+        option_json["isOpened"]=isOpened
+        with open('./data/options.json','w+') as opt:
+            opt.write(json.dumps(option_json))
     else:
         with open(opt_file, 'r') as optf:
             opt = json.load(optf)
-            print('load last time options GroupID:%d, ProjectID:%d'%(opt["GroupID"],opt["ProjectID"]))
-            issueUrl = '%s/projects/%d/issues?private_token=%s' % (config['url'], opt["ProjectID"], config['private_token'])
+            print('load last time options GroupID:%d, ProjectID:%d %s'% (
+                opt["GroupID"]
+                ,opt["ProjectID"]
+                ,', Only Open issue' if opt["isOpened"] else ''
+            ))
+            issue_url = '%s/projects/%d/issues?private_token=%s' % (config['url'], opt["ProjectID"], config['private_token'])
             mrUrl = '%s/projects/%d/merge_requests?private_token=%s' % (config['url'], opt["ProjectID"], config['private_token'])
-    return issueUrl, mrUrl
+            isOpened = opt["isOpened"]
+    return issue_url, mrUrl, isOpened
 
 
 if __name__ == '__main__':

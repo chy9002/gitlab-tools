@@ -28,5 +28,5 @@ if __name__ == '__main__':
             setup.setup()
     # print(opts,args)
 
-    issueUrl, mrUrl = options.options(reset)
-    issue.get_issue(issueUrl,isOpened=False)
+    issue_url, mrUrl, isOpened = options.options(reset)
+    issue.get_issue(issue_url,isOpened=isOpened)
