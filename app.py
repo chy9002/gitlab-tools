@@ -1,6 +1,5 @@
 #!/usr/local/bin/python3
-import issue
-import options
+import gitlabtool
 import getopt
 import sys
 import setup
@@ -28,5 +27,6 @@ if __name__ == '__main__':
             setup.setup()
     # print(opts,args)
 
-    issue_url, mrUrl, isOpened = options.options(reset)
-    issue.get_issue(issue_url,isOpened=isOpened)
+    issue_url, mrUrl, isOpened = gitlabtool.options(reset)
+    gitlabtool.get_issue(issue_url,isOpened=isOpened)
+    gitlabtool.get_mr(mrUrl)
