@@ -15,7 +15,9 @@ pip install -r requirements.txt
 ## How to use
 
 ```shell
-python app.py [--reset|--setup]
-reset -- reset group and project
-setup -- setup api url and token
+python  app.py [--reset|--setup|-i|-m]
+--reset      reset group and project
+--setup      setup api url and token
+-i           Download issues(default)
+-m           Download merge requests
 ```

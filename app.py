@@ -7,9 +7,11 @@ import setup
 if __name__ == '__main__':
     reset = False
     help_str = '''
-      app.py reset|setup
-      reset -- reset group and project
-      setup -- setup api url and token
+      app.py [--reset|--setup|-i|-m]
+      --reset      reset group and project
+      --setup      setup api url and token
+      -i           Download issues(default)
+      -m           Download merge requests
       '''
     try:
       opts, args = getopt.getopt(sys.argv[1:],"him",["reset","setup"])
@@ -21,7 +23,7 @@ if __name__ == '__main__':
       opts=[('-i','')]
 
     issue_url, mrUrl, isOpened = gitlabtool.options(reset)
-    
+
     for opt, arg in opts:
       if opt == '-h':
           print(help_str)
