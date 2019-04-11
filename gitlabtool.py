@@ -15,33 +15,31 @@ def get_issue(issue_url, next_page = 1, isOpened = True):
     with requests.get(issue_url+opened(isOpened)+'&page=%d'%(next_page)) as issues:
         with open(issuePath,'r') as issuefs:
             issuejson = json.load(issuefs)
-            for issue in issues.json():
-                issuejson.append(issue)
+            issuejson.extend(issues.json())
         with open(issuePath,'w+') as issuefs:
             issuefs.write(json.dumps(issuejson))
         next_page = issues.headers['X-Next-Page']
         if next_page.isnumeric():
             get_issue(issue_url,int(next_page),isOpened)
         else:
-            print('Done!')
+            print('Issue download success!')
 
-def get_mr(mr_url, next_page = 1):
+def get_mr(mr_url, next_page = 1, isOpened = True):
     mrPath = './data/mr.json'
     if next_page == 1:
         with open(mrPath,'w+') as mrfs:
             mrfs.write(r'[]')
-    with requests.get(mr_url+'&page=%d'%(next_page)) as mrs:
+    with requests.get(mr_url+opened(isOpened)+'&page=%d'%(next_page)) as mrs:
         with open(mrPath,'r') as mrfs:
             mrjson = json.load(mrfs)
-            for mr in mrs.json():
-                mrjson.append(mr)
+            mrjson.extend(mrs.json())
         with open(mrPath,'w+') as mrfs:
             mrfs.write(json.dumps(mrjson))
         next_page = mrs.headers['X-Next-Page']
         if next_page.isnumeric():
-            get_mr(mr_url,int(next_page))
+            get_mr(mr_url,int(next_page),isOpened)
         else:
-            print('Done!')
+            print('Merge request download success!')
 
 def options(reset = False):
     option_json = {"GroupID":0,"ProjectID":0,"isOpened":True}
